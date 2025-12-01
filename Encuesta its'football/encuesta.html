@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Encuesta · IT’S FOOTBALL</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --green:#0b8f3a;
+      --dark:#05221a;
+      --accent:#ffd600;
+      --card-bg: linear-gradient(180deg, #ffffff, #f3f8f3);
+    }
+    *{box-sizing:border-box;font-family:'Montserrat',sans-serif}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#eaf7ea 0%, #dff2d9 60%, #f6f9fb 100%);
+      color:#0b2b2a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:28px;
+    }
+
+    .container{
+      max-width:900px;
+      margin:0 auto;
+      background:var(--card-bg);
+      border-radius:14px;
+      padding:28px;
+      box-shadow: 0 10px 30px rgba(6,20,12,0.12);
+      border: 1px solid rgba(8,40,20,0.06);
+    }
+
+    header{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      margin-bottom:12px;
+    }
+    .logo{
+      width:78px;height:78px;border-radius:12px;background:
+      radial-gradient(circle at 30% 30%, #fff 2%, rgba(255,255,255,0) 3%),
+      linear-gradient(180deg,#0c9c45,#077733);
+      display:flex;align-items:center;justify-content:center;
+      box-shadow: 0 6px 18px rgba(6,20,12,0.12);
+      border: 2px solid rgba(255,255,255,0.08);
+    }
+    .logo svg{width:52px;height:52px;filter: drop-shadow(0 3px 6px rgba(0,0,0,0.12));}
+
+    h1{font-size:20px;margin:0}
+    p.lead{margin:6px 0 18px;color:#06523f}
+
+    .intro{
+      background: linear-gradient(90deg, rgba(11,143,58,0.06), rgba(11,143,58,0.02));
+      border-left:4px solid var(--green);
+      padding:12px 14px;
+      border-radius:8px;
+      margin-bottom:18px;
+    }
+
+    form .section-title{
+      display:flex;align-items:center;gap:12px;margin:18px 0 6px;
+      font-weight:600;color:var(--dark)
+    }
+
+    .card{
+      background:#fff;border-radius:10px;padding:14px;border:1px solid rgba(7,30,18,0.04);
+      margin-bottom:12px;
+    }
+
+    label{display:block;margin-bottom:8px;font-weight:600;color:#06382a;}
+    .help{font-size:13px;color:#4b6b63;margin-bottom:10px}
+
+    .row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .full{grid-column:1/-1}
+
+    input[type="text"], input[type="email"], select, textarea {
+      width:100%;padding:10px;border-radius:8px;border:1px solid #e6efe6;
+      outline:none;font-size:14px;background:#fbfffb;
+    }
+    textarea{min-height:88px;resize:vertical}
+
+    .options{display:flex;flex-direction:column;gap:6px}
+    .options label{font-weight:500;color:#084735}
+    .options input[type="radio"], .options input[type="checkbox"]{margin-right:8px}
+
+    .btn{
+      display:inline-block;padding:10px 16px;border-radius:10px;background:var(--green);
+      color:#fff;font-weight:700;border:none;cursor:pointer;text-decoration:none;
+      box-shadow: 0 6px 14px rgba(6,20,12,0.12);
+    }
+    .btn.secondary{background:transparent;color:var(--dark);border:1px solid rgba(6,20,12,0.06)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+
+    .note{font-size:13px;color:#335b4f;margin-top:8px}
+
+    footer{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px dashed rgba(6,40,30,0.04)}
+    .small{font-size:13px;color:#2b5546}
+
+    /* Results modal / box */
+    .results{margin-top:18px;background:linear-gradient(180deg,#fff,#f7fff7);padding:12px;border-radius:10px;border:1px solid rgba(7,30,18,0.04)}
+    .stat{display:flex;justify-content:space-between;padding:8px 6px;border-bottom:1px dashed rgba(8,40,25,0.03)}
+    .stat:last-child{border-bottom:none}
+
+    @media (max-width:720px){
+      .row{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="app">
+    <header>
+      <div class="logo" aria-hidden="true">
+        <!-- Simple football SVG -->
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="#fff"/>
+          <path d="M32 6 L39 18 L50 20 L42 30 L44 42 L32 36 L20 42 L22 30 L14 20 L25 18 Z" fill="#0b8f3a"/>
+          <circle cx="32" cy="32" r="3" fill="#05221a"/>
+        </svg>
+      </div>
+      <div>
+        <h1>ENCUESTA DE MERCADO · IT’S FOOTBALL</h1>
+        <p class="lead">Tu opinión nos ayuda a diseñar mejores productos de análisis, formación y experiencias futbolísticas.</p>
+      </div>
+    </header>
+
+    <div class="intro">
+      <strong>Objetivo:</strong> Conocer intereses y disposición de pago para servicios de análisis táctico, estadísticas, simuladores y talleres. Encuesta anónima. Duración estimada: 3-5 minutos.
+    </div>
+
+    <form id="surveyForm">
+      <!-- SECCIÓN 1 -->
+      <div class="section-title">1 · Perfil del encuestado</div>
+      <div class="card">
+        <div class="row">
+          <div>
+            <label for="edad">Edad</label>
+            <select id="edad" name="edad" required>
+              <option value="" disabled selected>Selecciona</option>
+              <option>Menos de 16</option>
+              <option>16 - 25</option>
+              <option>26 - 40</option>
+              <option>Más de 40</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="relacion">Relación con el fútbol</label>
+            <select id="relacion" name="relacion" required>
+              <option value="" disabled selected>Selecciona</option>
+              <option>Aficionado/a</option>
+              <option>Jugador/a</option>
+              <option>Entrenador/a</option>
+              <option>Estudiante de deporte</option>
+              <option>Otro</option>
+            </select>
+          </div>
+
+          <div class="full">
+            <label>¿Con qué frecuencia ves fútbol?</label>
+            <div class="options">
+              <label><input type="radio" name="frecuencia" value="Todos los días" required> Todos los días</label>
+              <label><input type="radio" name="frecuencia" value="Varias veces a la semana"> Varias veces a la semana</label>
+              <label><input type="radio" name="frecuencia" value="Una vez a la semana"> Una vez a la semana</label>
+              <label><input type="radio" name="frecuencia" value="Casi nunca"> Casi nunca</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 2 -->
+      <div class="section-title">2 · Interés por los servicios</div>
+      <div class="card">
+        <label>¿Te interesa el análisis táctico y estadístico de los partidos?</label>
+        <div class="options">
+          <label><input type="radio" name="interes_analisis" value="Mucho" required> Mucho</label>
+          <label><input type="radio" name="interes_analisis" value="Bastante"> Bastante</label>
+          <label><input type="radio" name="interes_analisis" value="Poco"> Poco</label>
+          <label><input type="radio" name="interes_analisis" value="Nada"> Nada</label>
+        </div>
+
+        <div style="height:8px"></div>
+
+        <label>¿Has utilizado alguna app o web con estadísticas de fútbol?</label>
+        <div class="options">
+          <label><input type="radio" name="uso_apps" value="Sí" required> Sí</label>
+          <label><input type="radio" name="uso_apps" value="No"> No</label>
+        </div>
+
+        <div style="height:8px"></div>
+
+        <label>¿Qué tipo de contenido te interesa? (marca todos los que quieras)</label>
+        <div class="options">
+          <label><input type="checkbox" name="contenido" value="Análisis táctico"> Análisis táctico de partidos</label>
+          <label><input type="checkbox" name="contenido" value="Estadísticas"> Estadísticas de jugadores y equipos</label>
+          <label><input type="checkbox" name="contenido" value="Simuladores"> Simuladores de partidos</label>
+          <label><input type="checkbox" name="contenido" value="Historia"> Historia del fútbol</label>
+          <label><input type="checkbox" name="contenido" value="Formación"> Formación para entrenadores/jugadores</label>
+        </div>
+
+        <div style="height:8px"></div>
+
+        <label>¿Qué servicio usarías con más probabilidad?</label>
+        <select id="servicio_preferido" name="servicio_preferido" required>
+          <option value="" disabled selected>Selecciona</option>
+          <option>Informes de análisis táctico</option>
+          <option>Plataforma con estadísticas avanzadas</option>
+          <option>Talleres y cursos</option>
+          <option>Eventos interactivos (retos/concursos)</option>
+          <option>Simuladores de entrenamiento</option>
+        </select>
+      </div>
+
+      <!-- SECCIÓN 3 -->
+      <div class="section-title">3 · Formato y precio</div>
+      <div class="card">
+        <label>¿Cómo prefieres acceder a estos servicios?</label>
+        <div class="options">
+          <label><input type="radio" name="formato" value="Online" required> Online</label>
+          <label><input type="radio" name="formato" value="Presencial"> Presencial</label>
+          <label><input type="radio" name="formato" value="Híbrido"> Combinación de ambos</label>
+        </div>
+
+        <div style="height:8px"></div>
+
+        <label>¿Cuánto pagarías al mes por un servicio como este?</label>
+        <div class="options">
+          <label><input type="radio" name="precio" value="Menos de 10€" required> Menos de 10€</label>
+          <label><input type="radio" name="precio" value="10€ - 25€"> 10€ - 25€</label>
+          <label><input type="radio" name="precio" value="25€ - 50€"> 25€ - 50€</label>
+          <label><input type="radio" name="precio" value="Más de 50€"> Más de 50€</label>
+          <label><input type="radio" name="precio" value="Solo si gratuito"> Solo lo usaría si fuera gratuito</label>
+        </div>
+
+        <div style="height:8px"></div>
+
+        <label>Si el servicio fuera gratuito, ¿lo usarías?</label>
+        <div class="options">
+          <label><input type="radio" name="gratuito" value="Sí" required> Sí</label>
+          <label><input type="radio" name="gratuito" value="No"> No</label>
+          <label><input type="radio" name="gratuito" value="Tal vez"> Tal vez</label>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 4 -->
+      <div class="section-title">4 · Tecnología e innovación</div>
+      <div class="card">
+        <label>¿Qué opinas del uso de IA y realidad virtual en el fútbol?</label>
+        <div class="options">
+          <label><input type="radio" name="ia_vr" value="Muy interesante" required> Me parece muy interesante</label>
+          <label><input type="radio" name="ia_vr" value="Interesante pero no lo usaría"> Me gusta, pero no lo usaría</label>
+          <label><input type="radio" name="ia_vr" value="Me da igual"> Me da igual</label>
+          <label><input type="radio" name="ia_vr" value="No me gusta"> No me gusta</label>
+        </div>
+
+        <div style="height:8px"></div>
+        <label>¿Crees que estas tecnologías ayudan a mejorar el rendimiento?</label>
+        <div class="options">
+          <label><input type="radio" name="ia_rendimiento" value="Sí, mucho" required> Sí, mucho</label>
+          <label><input type="radio" name="ia_rendimiento" value="Algo"> Algo</label>
+          <label><input type="radio" name="ia_rendimiento" value="Poco"> Poco</label>
+          <label><input type="radio" name="ia_rendimiento" value="Nada"> Nada</label>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 5 -->
+      <div class="section-title">5 · Valores e inclusión</div>
+      <div class="card">
+        <label>¿Es importante fomentar la participación de mujeres y colectivos desfavorecidos?</label>
+        <div class="options">
+          <label><input type="radio" name="inclusion" value="Sí" required> Sí</label>
+          <label><input type="radio" name="inclusion" value="No"> No</label>
+          <label><input type="radio" name="inclusion" value="Me es indiferente"> Me es indiferente</label>
+        </div>
+
+        <div style="height:8px"></div>
+
+        <label>¿Te gustaría participar en actividades organizadas por IT'S FOOTBALL?</label>
+        <div class="options">
+          <label><input type="radio" name="participar" value="Sí" required> Sí</label>
+          <label><input type="radio" name="participar" value="No"> No</label>
+          <label><input type="radio" name="participar" value="Tal vez"> Tal vez</label>
+        </div>
+
+        <div style="height:8px"></div>
+
+        <label for="sugerencias">Sugerencias / Comentarios (opcional)</label>
+        <textarea id="sugerencias" name="sugerencias" placeholder="¿Tienes ideas para mejorar IT'S FOOTBALL?"></textarea>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn">Enviar respuesta</button>
+        <button type="button" id="downloadAll" class="btn secondary">Descargar CSV</button>
+        <button type="button" id="showResults" class="btn secondary">Ver resultados agregados</button>
+        <button type="button" id="clearAll" class="btn secondary" title="Borra todas las respuestas almacenadas en este navegador">Borrar respuestas (local)</button>
+      </div>
+
+      <div class="note">
+        <strong>¿Dónde y cuándo?</strong> La encuesta se puede distribuir online (Instagram, WhatsApp, mail) y presencialmente en clubes/escuelas. Recomendado: 2 semanas de recolección para >100 respuestas si se busca robustez; para pruebas iniciales 30–50 respuestas.
+      </div>
+    </form>
+
+    <div id="resultsBox" class="results" style="display:none" aria-live="polite">
+      <h3 style="margin:0 0 8px 0">Resultados agregados (desde este navegador)</h3>
+      <div id="stats"></div>
+      <div class="note" style="margin-top:10px">Los datos mostrados son las respuestas recopiladas localmente. Si quieres recolectar datos centralizados, integra el formulario con una base de datos o Google Forms.</div>
+    </div>
+
+    <footer>
+      <div class="small">IT’S FOOTBALL · Encuesta diseñada para análisis de producto</div>
+      <div class="small">Anónima · <strong>Tiempo estimado:</strong> 3–5 minutos</div>
+    </footer>
+  </div>
+
+  <script>
+    // Simple client-side storage and CSV export
+    const form = document.getElementById('surveyForm');
+    const storageKey = 'itsfootball_encuestas_v1';
+
+    function getStored(){
+      const raw = localStorage.getItem(storageKey);
+      try{
+        return raw ? JSON.parse(raw) : [];
+      }catch(e){ return [];}
+    }
+    function saveStored(arr){
+      localStorage.setItem(storageKey, JSON.stringify(arr));
+    }
+
+    function serializeForm(form){
+      const fm = new FormData(form);
+      const obj = {};
+      // Multiple checkboxes named "contenido"
+      const contenidos = [];
+      for(const entry of fm.entries()){
+        const [k,v] = entry;
+        if(k === 'contenido'){
+          contenidos.push(v);
+        } else {
+          // if key already present (rare), convert to array
+          if(obj[k] !== undefined){
+            if(!Array.isArray(obj[k])) obj[k] = [obj[k]];
+            obj[k].push(v);
+          } else {
+            obj[k] = v;
+          }
+        }
+      }
+      obj.contenido = contenidos;
+      obj.timestamp = new Date().toISOString();
+      return obj;
+    }
+
+    function toCSV(rows){
+      if(!rows.length) return '';
+      const keys = Object.keys(rows[0]);
+      const esc = v => {
+        if(v === null || v === undefined) return '';
+        const s = (Array.isArray(v) ? v.join('|') : String(v)).replace(/"/g,'""');
+        return '"' + s + '"';
+      };
+      const header = keys.map(esc).join(',');
+      const body = rows.map(r => keys.map(k => esc(r[k])).join(',')).join('\n');
+      return header + '\n' + body;
+    }
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const data = serializeForm(form);
+      const arr = getStored();
+      arr.push(data);
+      saveStored(arr);
+      alert('¡Gracias! Tu respuesta se ha guardado localmente.');
+      form.reset();
+    });
+
+    document.getElementById('downloadAll').addEventListener('click', () => {
+      const arr = getStored();
+      if(!arr.length){ alert('No hay respuestas guardadas.'); return; }
+      const csv = toCSV(arr);
+      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'itsfootball_respuestas.csv';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('showResults').addEventListener('click', () => {
+      const arr = getStored();
+      const box = document.getElementById('resultsBox');
+      const stats = document.getElementById('stats');
+      if(!arr.length){
+        stats.innerHTML = '<div class="note">No hay respuestas almacenadas en este navegador.</div>';
+        box.style.display = 'block';
+        return;
+      }
+
+      // aggregate some meaningful stats
+      const total = arr.length;
+      const count = (key, value) => arr.filter(r => r[key] === value).length;
+      const modeCount = (key) => {
+        const map = {};
+        arr.forEach(r => {
+          const v = r[key] ?? '—';
+          map[v] = (map[v]||0) + 1;
+        });
+        const list = Object.entries(map).sort((a,b)=>b[1]-a[1]);
+        return list;
+      };
+
+      // frequency of interest in analysis
+      const interest = modeCount('interes_analisis');
+      const servicio = modeCount('servicio_preferido');
+      const precio = modeCount('precio');
+      const formato = modeCount('formato');
+      const ia = modeCount('ia_vr');
+      const inclusion = modeCount('inclusion');
+
+      // content (checkbox array)
+      const contentCounts = {};
+      arr.forEach(r => {
+        (r.contenido || []).forEach(item => contentCounts[item] = (contentCounts[item]||0)+1);
+      });
+      const contentList = Object.entries(contentCounts).sort((a,b)=>b[1]-a[1]);
+
+      // build HTML
+      let html = '';
+      html += `<div class="stat"><strong>Total respuestas:</strong><span>${total}</span></div>`;
+      html += `<div style="height:8px"></div>`;
+      html += `<div class="stat"><strong>Interés por análisis (top):</strong><span>${interest[0] ? interest[0][0] + ' ('+interest[0][1]+' )' : '—'}</span></div>`;
+      html += `<div class="stat"><strong>Servicio preferido (top):</strong><span>${servicio[0] ? servicio[0][0] + ' ('+servicio[0][1]+' )' : '—'}</span></div>`;
+      html += `<div class="stat"><strong>Formato preferido (top):</strong><span>${formato[0] ? formato[0][0] + ' ('+formato[0][1]+' )' : '—'}</span></div>`;
+      html += `<div class="stat"><strong>Rango de precio (top):</strong><span>${precio[0] ? precio[0][0] + ' ('+precio[0][1]+' )' : '—'}</span></div>`;
+      html += `<div class="stat"><strong>Visión sobre IA/VR (top):</strong><span>${ia[0] ? ia[0][0] + ' ('+ia[0][1]+' )' : '—'}</span></div>`;
+      html += `<div class="stat"><strong>Opinión inclusión (top):</strong><span>${inclusion[0] ? inclusion[0][0] + ' ('+inclusion[0][1]+' )' : '—'}</span></div>`;
+
+      if(contentList.length){
+        html += `<div style="height:8px"></div><div style="font-weight:600;margin-bottom:6px">Contenidos más marcados</div>`;
+        contentList.forEach(([k,v]) => {
+          html += `<div class="stat"><span>${k}</span><strong>${v}</strong></div>`;
+        });
+      }
+
+      // show some raw recent suggestions
+      const suggestions = arr.filter(r=>r.sugerencias).slice(-6).map(r=>`<li>${(new Date(r.timestamp)).toLocaleString()} — ${escapeHtml(r.sugerencias)}</li>`).join('');
+      if(suggestions){
+        html += `<div style="height:8px"></div><div style="font-weight:600;margin-bottom:6px">Últimas sugerencias</div><ul>${suggestions}</ul>`;
+      }
+
+      stats.innerHTML = html;
+      box.style.display = 'block';
+      box.scrollIntoView({behavior:'smooth'});
+    });
+
+    document.getElementById('clearAll').addEventListener('click', () => {
+      if(confirm('¿Borrar todas las respuestas guardadas en este navegador? Esta acción no puede deshacerse.')){
+        localStorage.removeItem(storageKey);
+        document.getElementById('resultsBox').style.display = 'none';
+        alert('Respuestas borradas.');
+      }
+    });
+
+    // small helper
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    }
+
+    // For first-time users, show a quick tip
+    (function tip(){
+      if(!localStorage.getItem('itsfootball_seen_tip')){
+        // show small non-blocking tip in console
+        console.info('Tip: Puedes distribuir este archivo HTML por correo, WhatsApp o alojarlo en GitHub Pages. Usa "Descargar CSV" para exportar respuestas.');
+        localStorage.setItem('itsfootball_seen_tip','1');
+      }
+    })();
+
+  </script>
+</body>
+</html>
+    
